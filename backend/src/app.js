@@ -20,18 +20,19 @@ app.get('/',(req,res)=>{
     return res.send("heyybabe")
 });
 
-
+app.get('/api/v1/users/login')
 
 const start = async() =>{
     try {
         const connectionDB = await mongoose.connect("mongodb+srv://aryanshrivastav7374:PoojaCluster0@cluster0.k8rfecs.mongodb.net/ConnectifyDB?retryWrites=true&w=majority&appName=Cluster0");
+        // const connectionDB = await mongoose.connect("mongodb+srv://img_upload_project:database69@cluster0.1jgyo4b.mongodb.net/?appName=Cluster0");
         
         console.log("MongoDB connection to DB host:",connectionDB.connection.host)
     } catch (error) {
         console.log("Error while connecting to MongoDB:",error);
     }
-    server.listen('3000',()=>{
-    console.log(`app is running at port 3000`)
+    server.listen('8000',()=>{
+    console.log(`app is running at port 8000`)
   });
 }
 

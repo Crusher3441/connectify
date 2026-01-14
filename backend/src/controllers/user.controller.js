@@ -9,11 +9,15 @@ const login = async(req,res)=>{
     try {
         const user = await User.findOne({username});
         if(!user) return res.status(httpStatus.NOT_FOUND).json({message:"user not found"});
-        if(bcrypt.compare(password,user.password)){
+
+        let isPasswordCorrect = await bcrypt.compare(password,user.password);
+        if(isPasswordCorrect){
             let token = crypto.randomBytes(20).toString("hex");
             user.token = token;
             await user.save();
             return res.status(httpStatus.OK).json({token:token})
+        } else {
+            return res.status(httpStatus.UNAUTHORIZED).json({ message: "Invalid Username or password" })
         }
     } catch (error) {
         res.status(500).json({message:"error",error})
@@ -22,8 +26,8 @@ const login = async(req,res)=>{
 
 const register = async(req,res)=>{
     const{name,username,password} = req.body;
-    //  if(!username || !password) return res.status(400).json({message:"please provide valid data"});
-    if(!req.body) return res.status(400).json({message:"provide"})
+    //  if(!username || !password || !name) return res.status(400).json({message:"please provide valid data"});
+    // if(!req.body) return res.status(400).json({message:"provide"})
 
     try {
         const existingUser = await User.findOne({username});

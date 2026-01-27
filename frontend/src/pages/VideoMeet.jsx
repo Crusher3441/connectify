@@ -2,9 +2,13 @@ import { Button, TextField } from "@mui/material";
 import React from "react";
 import { useRef, useState } from "react";
 
+import io from "socket.io-client";
+
 const server_url = "http://localhost:8000";
 
 let connections = {};
+
+// io.connect("https://connectify-eight.vercel.app/");
 
 let connect = () =>{
   

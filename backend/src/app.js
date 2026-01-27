@@ -1,3 +1,4 @@
+import dotenv from 'dotenv';
 import express from 'express';
 import http from 'http';
 import cors from 'cors';
@@ -5,6 +6,9 @@ import {Server} from 'socket.io';
 import mongoose from 'mongoose';
 import { connectToSocket } from './controllers/socketManager.js';
 import userRoutes from './routes/users.routes.js';
+
+dotenv.config();
+
 
 const app = express();
 const server = http.createServer(app);
@@ -22,17 +26,18 @@ app.get('/',(req,res)=>{
 
 app.get('/api/v1/users/login')
 
+const port = process.env.PORT;
 const start = async() =>{
     try {
-        const connectionDB = await mongoose.connect("mongodb+srv://aryanshrivastav7374:PoojaCluster0@cluster0.k8rfecs.mongodb.net/ConnectifyDB?retryWrites=true&w=majority&appName=Cluster0");
-        // const connectionDB = await mongoose.connect("mongodb+srv://img_upload_project:database69@cluster0.1jgyo4b.mongodb.net/?appName=Cluster0");
+        const connectionDB = await mongoose.connect(process.env.DB_URI);
+        
         
         console.log("MongoDB connection to DB host:",connectionDB.connection.host)
     } catch (error) {
         console.log("Error while connecting to MongoDB:",error);
     }
-    server.listen('8000',()=>{
-    console.log(`app is running at port 8000`)
+    server.listen(port,()=>{
+    console.log(`app is running at port ${port}`)
   });
 }
 
